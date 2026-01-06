@@ -1,26 +1,220 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Color Reference */
+  --color-primary: var(--md-sys-color-primary);
+  --color-on-primary: var(--md-sys-color-on-primary);
+  --color-primary-container: var(--md-sys-color-primary-container);
+  --color-on-primary-container: var(--md-sys-color-on-primary-container);
+  
+  --color-secondary: var(--md-sys-color-secondary);
+  --color-on-secondary: var(--md-sys-color-on-secondary);
+  --color-secondary-container: var(--md-sys-color-secondary-container);
+  --color-on-secondary-container: var(--md-sys-color-on-secondary-container);
+  
+  --color-tertiary: var(--md-sys-color-tertiary);
+  --color-on-tertiary: var(--md-sys-color-on-tertiary);
+  --color-tertiary-container: var(--md-sys-color-tertiary-container);
+  --color-on-tertiary-container: var(--md-sys-color-on-tertiary-container);
+  
+  --color-error: var(--md-sys-color-error);
+  --color-on-error: var(--md-sys-color-on-error);
+  --color-error-container: var(--md-sys-color-error-container);
+  --color-on-error-container: var(--md-sys-color-on-error-container);
+  
+  --color-background: var(--md-sys-color-background);
+  --color-on-background: var(--md-sys-color-on-background);
+  --color-surface: var(--md-sys-color-surface);
+  --color-on-surface: var(--md-sys-color-on-surface);
+  
+  --color-surface-variant: var(--md-sys-color-surface-variant);
+  --color-on-surface-variant: var(--md-sys-color-on-surface-variant);
+  --color-outline: var(--md-sys-color-outline);
+  --color-outline-variant: var(--md-sys-color-outline-variant);
+
+  --color-inverse-surface: var(--md-sys-color-inverse-surface);
+  --color-inverse-on-surface: var(--md-sys-color-inverse-on-surface);
+  --color-inverse-primary: var(--md-sys-color-inverse-primary);
+
+  /* Typography Reference */
+  --font-display-large: "Roboto", sans-serif; /* Fallback, usually separate classes */
+  --text-display-large: 3.5625rem; /* 57px */
+  --text-display-large--line-height: 4rem; /* 64px */
+  --text-display-large--tracking: -0.015625rem; /* -0.25px */
+
+  --text-display-medium: 2.8125rem; /* 45px */
+  --text-display-medium--line-height: 3.25rem; /* 52px */
+  
+  --text-display-small: 2.25rem; /* 36px */
+  --text-display-small--line-height: 2.75rem; /* 44px */
+
+  --text-headline-large: 2rem; /* 32px */
+  --text-headline-large--line-height: 2.5rem; /* 40px */
+  
+  --text-headline-medium: 1.75rem; /* 28px */
+  --text-headline-medium--line-height: 2.25rem; /* 36px */
+
+  --text-headline-small: 1.5rem; /* 24px */
+  --text-headline-small--line-height: 2rem; /* 32px */
+
+  --text-title-large: 1.375rem; /* 22px */
+  --text-title-large--line-height: 1.75rem; /* 28px */
+
+  --text-title-medium: 1rem; /* 16px */
+  --text-title-medium--line-height: 1.5rem; /* 24px */
+
+  --text-title-small: 0.875rem; /* 14px */
+  --text-title-small--line-height: 1.25rem; /* 20px */
+  
+  --text-body-large: 1rem; /* 16px */
+  --text-body-large--line-height: 1.5rem; /* 24px */
+
+  --text-body-medium: 0.875rem; /* 14px */
+  --text-body-medium--line-height: 1.25rem; /* 20px */
+
+  --text-label-large: 0.875rem; /* 14px */
+  --text-label-large--line-height: 1.25rem; /* 20px */
+
+  /* State Layers */
+  --color-state-hover: 0.08;
+  --color-state-focus: 0.12;
+  --color-state-pressed: 0.12;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Material 3 Token Values */
+:root {
+  /* Seed Color: #0061A4 (Tech Blue) */
+  
+  /* Light Theme */
+  --md-sys-color-primary: #0061A4;
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #D1E4FF;
+  --md-sys-color-on-primary-container: #001D36;
+
+  --md-sys-color-secondary: #535F70;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #D7E3F7;
+  --md-sys-color-on-secondary-container: #101C2B;
+
+  --md-sys-color-tertiary: #6B5778;
+  --md-sys-color-on-tertiary: #FFFFFF;
+  --md-sys-color-tertiary-container: #F2DAFF;
+  --md-sys-color-on-tertiary-container: #251431;
+
+  --md-sys-color-error: #BA1A1A;
+  --md-sys-color-on-error: #FFFFFF;
+  --md-sys-color-error-container: #FFDAD6;
+  --md-sys-color-on-error-container: #410002;
+
+  --md-sys-color-background: #FDFCFF;
+  --md-sys-color-on-background: #1A1C1E;
+  
+  --md-sys-color-surface: #FDFCFF;
+  --md-sys-color-on-surface: #1A1C1E;
+  
+  --md-sys-color-surface-variant: #DFE2EB;
+  --md-sys-color-on-surface-variant: #43474E;
+  
+  --md-sys-color-outline: #73777F;
+  --md-sys-color-outline-variant: #C3C7CF;
+
+  --md-sys-color-inverse-surface: #2F3033;
+  --md-sys-color-inverse-on-surface: #F1F0F4;
+  --md-sys-color-inverse-primary: #9ECAFF;
+
+  /* Font Families */
+  --font-geist-sans: "Inter", system-ui, sans-serif;
+  --font-geist-mono: "Roboto Mono", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Dark Theme */
+    --md-sys-color-primary: #9ECAFF;
+    --md-sys-color-on-primary: #003258;
+    --md-sys-color-primary-container: #00497D;
+    --md-sys-color-on-primary-container: #D1E4FF;
+
+    --md-sys-color-secondary: #BBC7DB;
+    --md-sys-color-on-secondary: #253140;
+    --md-sys-color-secondary-container: #3B4858;
+    --md-sys-color-on-secondary-container: #D7E3F7;
+
+    --md-sys-color-tertiary: #D6BEE4;
+    --md-sys-color-on-tertiary: #3B2948;
+    --md-sys-color-tertiary-container: #523F5F;
+    --md-sys-color-on-tertiary-container: #F2DAFF;
+
+    --md-sys-color-error: #FFB4AB;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000A;
+    --md-sys-color-on-error-container: #FFDAD6;
+
+    --md-sys-color-background: #1A1C1E;
+    --md-sys-color-on-background: #E2E2E6;
+    
+    --md-sys-color-surface: #1A1C1E;
+    --md-sys-color-on-surface: #E2E2E6;
+    
+    --md-sys-color-surface-variant: #43474E;
+    --md-sys-color-on-surface-variant: #C3C7CF;
+    
+    --md-sys-color-outline: #8D9199;
+    --md-sys-color-outline-variant: #43474E;
+
+    --md-sys-color-inverse-surface: #E2E2E6;
+    --md-sys-color-inverse-on-surface: #2F3033;
+    --md-sys-color-inverse-primary: #0061A4;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+  font-family: var(--font-geist-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Utility Classes for Typography */
+.display-large {
+  font-size: var(--text-display-large);
+  line-height: var(--text-display-large--line-height);
+  letter-spacing: var(--text-display-large--tracking);
+  font-weight: 400;
+}
+
+.display-medium {
+  font-size: var(--text-display-medium);
+  line-height: var(--text-display-medium--line-height);
+  font-weight: 400;
+}
+
+.headline-large {
+  font-size: var(--text-headline-large);
+  line-height: var(--text-headline-large--line-height);
+  font-weight: 400;
+}
+
+.headline-medium {
+  font-size: var(--text-headline-medium);
+  line-height: var(--text-headline-medium--line-height);
+  font-weight: 400;
+}
+
+.title-large {
+  font-size: var(--text-title-large);
+  line-height: var(--text-title-large--line-height);
+  font-weight: 400;
+}
+
+.body-large {
+  font-size: var(--text-body-large);
+  line-height: var(--text-body-large--line-height);
+  font-weight: 400;
+}
+
+.label-large {
+  font-size: var(--text-label-large);
+  line-height: var(--text-label-large--line-height);
+  font-weight: 500;
 }
