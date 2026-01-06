@@ -1,36 +1,15 @@
-// import { drupal } from "@/lib/drupal";
-// import { DrupalNode } from "next-drupal";
+import { drupal } from "@/lib/drupal";
+import { DrupalNode } from "next-drupal";
 import Hero from "@/components/Hero";
 import BlogCard from "@/components/BlogCard";
 
-// Mock Data for Initial UI Implementation
-const POSTS = [
-  {
-    title: "Understanding Material Design 3",
-    excerpt: "A deep dive into the color system, typography, and elevation layers of Google's latest design language.",
-    date: "Jan 06, 2026",
-    slug: "understanding-material-design-3",
-    category: "Design",
-  },
-  {
-    title: "Building Scalable Frontends with Next.js",
-    excerpt: "Best practices for organizing your Next.js project and leveraging Server Components for performance.",
-    date: "Dec 12, 2025",
-    slug: "building-scalable-frontends",
-    category: "Engineering",
-  },
-   {
-    title: "The Future of Web Interactivity",
-    excerpt: "How micro-interactions and dynamic state layers enhance user experience without cluttering the UI.",
-    date: "Nov 28, 2025",
-    slug: "future-web-interactivity",
-    category: "UX",
-  },
-];
-
 export default async function Home() {
-  // Use mock data for now to ensure UI is perfect before connecting backend
-  const projects = POSTS;
+  const projects = await drupal.getResourceCollection<DrupalNode[]>("node--article", {
+    params: {
+      "filter[status]": 1,
+      sort: "-created",
+    },
+  });
 
   return (
     <div className="bg-[var(--md-sys-color-background)]">
@@ -44,9 +23,23 @@ export default async function Home() {
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {projects.map((post) => (
-            <BlogCard key={post.slug} {...post} />
-          ))}
+          {projects.map((node) => {
+             // Map Drupal Node to Blog Card Props
+             const slug = node.path.alias?.replace(/^\//, "") || node.id;
+             const excerpt = node.body?.summary || node.body?.processed?.slice(0, 150) + "..." || "No summary available.";
+             const date = new Date(node.created).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+             
+             return (
+              <BlogCard 
+                key={node.id} 
+                title={node.title} 
+                excerpt={excerpt} 
+                date={date} 
+                slug={slug} 
+                category="Project" // Default category for now
+              />
+            );
+          })}
         </div>
       </div>
     </div>
