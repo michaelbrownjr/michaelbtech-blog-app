@@ -3,18 +3,20 @@ import { DrupalNode } from "next-drupal";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export async function generateStaticParams() {
-  const articles = await drupal.getResourceCollection<DrupalNode[]>("node--article", {
-    params: {
-      "filter[status]": 1,
-      "fields[node--article]": "path",
-    },
-  });
+export const dynamic = "force-dynamic";
 
-  return articles.map((article) => ({
-    id: article.path?.alias?.replace(/^\//, "") || article.id,
-  }));
-}
+// export async function generateStaticParams() {
+//   const articles = await drupal.getResourceCollection<DrupalNode[]>("node--article", {
+//     params: {
+//       "filter[status]": 1,
+//       "fields[node--article]": "path",
+//     },
+//   });
+
+//   return articles.map((article) => ({
+//     id: article.path?.alias?.replace(/^\//, "") || article.id,
+//   }));
+// }
 
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
