@@ -3,20 +3,18 @@ import { DrupalNode } from "next-drupal";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const articles = await drupal.getResourceCollection<DrupalNode[]>("node--article", {
+    params: {
+      "filter[status]": 1,
+      "fields[node--article]": "path",
+    },
+  });
 
-// export async function generateStaticParams() {
-//   const articles = await drupal.getResourceCollection<DrupalNode[]>("node--article", {
-//     params: {
-//       "filter[status]": 1,
-//       "fields[node--article]": "path",
-//     },
-//   });
-
-//   return articles.map((article) => ({
-//     id: article.path?.alias?.replace(/^\//, "") || article.id,
-//   }));
-// }
+  return articles.map((article) => ({
+    id: article.path?.alias?.replace(/^\//, "") || article.id,
+  }));
+}
 
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -29,31 +27,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     article = await drupal.getResourceByPath<DrupalNode>(`/${id}`, {
       params: {
         // "filter[status]": 1, // status filter might not work with getResourceByPath directly depending on implementation, but worth trying or relying on published check
+         include: "field_image,uid", 
       },
     });
 
     if (!article && id.startsWith('article-')) {
        // Fallback for UUID or other patterns if needed, but getResourceByPath is best for aliases
     }
-  } catch (err: any) {
-    return (
-      <div className="p-10 text-red-500">
-        <h1 className="text-2xl font-bold">Debug Error</h1>
-        <p>Failed to fetch article: {id}</p>
-        <pre>{JSON.stringify(err.message, null, 2)}</pre>
-        <pre>{JSON.stringify(err, null, 2)}</pre>
-      </div>
-    );
+  } catch {
+    notFound();
   }
 
   if (!article) {
-    return (
-      <div className="p-10 text-yellow-500">
-        <h1 className="text-2xl font-bold">Debug: Article Not Found (Null)</h1>
-        <p>ID: {id}</p>
-        <p>Tried getResourceByPath and getResource.</p>
-      </div>
-    );
+    notFound();
   }
 
   const date = new Date(article.created).toLocaleDateString("en-US", {
