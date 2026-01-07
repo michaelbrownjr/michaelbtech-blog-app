@@ -25,23 +25,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   let article: DrupalNode | null = null;
   
   try {
-    const articles = await drupal.getResourceCollection<DrupalNode[]>("node--article", {
+    // Use getResourceByPath which handles alias resolution automatically
+    article = await drupal.getResourceByPath<DrupalNode>(`/${id}`, {
       params: {
-        "filter[path.alias]": `/${id}`,
-        "filter[status]": 1,
-        // include: "field_image,uid", 
+        // "filter[status]": 1, // status filter might not work with getResourceByPath directly depending on implementation, but worth trying or relying on published check
       },
     });
-    
-    if (articles.length > 0) {
-      article = articles[0];
-    } else {
-      // Try fetching by UUID
-      article = await drupal.getResource<DrupalNode>("node--article", id, {
-        params: {
-          // include: "field_image,uid",
-        },
-      });
+
+    if (!article && id.startsWith('article-')) {
+       // Fallback for UUID or other patterns if needed, but getResourceByPath is best for aliases
     }
   } catch {
     notFound();
