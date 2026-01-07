@@ -29,7 +29,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
       params: {
         "filter[path.alias]": `/${id}`,
         "filter[status]": 1,
-        include: "field_image,uid",
+        // include: "field_image,uid", 
       },
     });
     
@@ -39,7 +39,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
       // Try fetching by UUID
       article = await drupal.getResource<DrupalNode>("node--article", id, {
         params: {
-          include: "field_image,uid",
+          // include: "field_image,uid",
         },
       });
     }
