@@ -35,12 +35,25 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     if (!article && id.startsWith('article-')) {
        // Fallback for UUID or other patterns if needed, but getResourceByPath is best for aliases
     }
-  } catch {
-    notFound();
+  } catch (err: any) {
+    return (
+      <div className="p-10 text-red-500">
+        <h1 className="text-2xl font-bold">Debug Error</h1>
+        <p>Failed to fetch article: {id}</p>
+        <pre>{JSON.stringify(err.message, null, 2)}</pre>
+        <pre>{JSON.stringify(err, null, 2)}</pre>
+      </div>
+    );
   }
 
   if (!article) {
-    notFound();
+    return (
+      <div className="p-10 text-yellow-500">
+        <h1 className="text-2xl font-bold">Debug: Article Not Found (Null)</h1>
+        <p>ID: {id}</p>
+        <p>Tried getResourceByPath and getResource.</p>
+      </div>
+    );
   }
 
   const date = new Date(article.created).toLocaleDateString("en-US", {
